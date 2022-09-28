@@ -7,6 +7,11 @@ import sys
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'hotel.settings')
+
+    here = os.path.abspath(os.path.dirname(__file__))
+    path = os.path.join(here, 'src')
+    sys.path.insert(1, path)
+
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
