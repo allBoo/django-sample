@@ -7,6 +7,7 @@ import sys
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'hotel.settings')
+    os.environ.setdefault('DEBUG', '1')
 
     here = os.path.abspath(os.path.dirname(__file__))
     path = os.path.join(here, 'src')
