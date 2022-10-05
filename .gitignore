@@ -24,7 +24,6 @@ local.*
 # don't track local configurations except __init__.py and our template for creating local settings
 .DS_Store
 media
-site
 
 #ignore cache
 .cache

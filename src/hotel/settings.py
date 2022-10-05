@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'view_breadcrumbs',
 
     'landing',
+    'booking',
 ]
 
 MIDDLEWARE = [
@@ -52,7 +53,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'hotel.urls'
+ROOT_URLCONF = 'src.hotel.urls'
 
 TEMPLATES = [
     {
@@ -120,11 +121,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_ROOT = BASE_DIR
-STATIC_URL = '/static/'
+STATIC_URL = '/site/static/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'site/media/')
+MEDIA_URL = '/site/media/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
-    '/var/www/static/',
+    BASE_DIR / "site/static/",
+    BASE_DIR / "site/media/",
+    '/var/www/site/static/',
 ]
 
 STATICFILES_FINDERS = (
