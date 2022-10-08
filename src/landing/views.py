@@ -1,6 +1,7 @@
 from django.shortcuts import render
+from django.core.paginator import Paginator
 from view_breadcrumbs.generic.base import add_breadcrumb
-
+from booking.models import Category, Room
 
 # helper functions
 
@@ -55,6 +56,9 @@ def _internal_context(request, page=None):
 
         add_breadcrumb(context, page_info['title'], page)
 
+    rooms_gallery = Room.objects.exclude(thumbnail__isnull=True)[:6]
+    context['rooms_gallery'] = rooms_gallery
+
     return context
 
 
@@ -87,11 +91,26 @@ def internal(request):
 def rooms(request):
     context = _internal_context(request)
 
+    rooms_qs = Room.objects.all()
+
+    category_id = request.GET.get('category')
+    if category_id:
+        rooms_qs = rooms_qs.filter(category_id=int(category_id))
+
+    paginator = Paginator(rooms_qs, 6)
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context['rooms'] = page_obj
+
     return render(request, 'pages/rooms.html', context=context)
 
 
 def categories(request):
     context = _internal_context(request)
+
+    context['categories'] = Category.objects.all()
 
     return render(request, 'pages/categories.html', context=context)
 

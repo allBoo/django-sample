@@ -17,6 +17,11 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+    @property
+    def rooms_count(self):
+        """ @note - be careful with N+1 """
+        return self.rooms.count()
+
 
 class Room(models.Model):
 
