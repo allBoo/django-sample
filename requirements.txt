@@ -1,4 +1,5 @@
 Django>=4.1,<5.0
 django-view-breadcrumbs
+djangorestframework>=3.14.0
 uWSGI
 Pillow
