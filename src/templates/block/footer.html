@@ -25,24 +25,11 @@
             <div class="col-lg-3 col-md-6">
                 <h5 class="text-white mb-4">Photo Gallery</h5>
                 <div class="row g-2 pt-2">
+                    {% for room in rooms_gallery %}
                     <div class="col-4">
-                        <img class="img-fluid rounded bg-light p-1" src="{% static 'img/property-1.jpg' %}" alt="">
+                        <img class="img-fluid rounded bg-light p-1" src="{% static room.thumbnail %}" alt="">
                     </div>
-                    <div class="col-4">
-                        <img class="img-fluid rounded bg-light p-1" src="{% static 'img/property-2.jpg' %}" alt="">
-                    </div>
-                    <div class="col-4">
-                        <img class="img-fluid rounded bg-light p-1" src="{% static 'img/property-3.jpg' %}" alt="">
-                    </div>
-                    <div class="col-4">
-                        <img class="img-fluid rounded bg-light p-1" src="{% static 'img/property-4.jpg' %}" alt="">
-                    </div>
-                    <div class="col-4">
-                        <img class="img-fluid rounded bg-light p-1" src="{% static 'img/property-5.jpg' %}" alt="">
-                    </div>
-                    <div class="col-4">
-                        <img class="img-fluid rounded bg-light p-1" src="{% static 'img/property-6.jpg' %}" alt="">
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
