@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'view_breadcrumbs',
 
+    'hotel',
     'landing',
     'booking',
 ]
