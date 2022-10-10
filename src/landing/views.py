@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
 from view_breadcrumbs.generic.base import add_breadcrumb
 from booking.models import Category, Room
@@ -36,6 +36,9 @@ PAGES = {
     'testimonial': {
         'title': 'Отзывы'
     },
+    'appointment': {
+        'title': 'Забронировать'
+    },
 }
 
 
@@ -66,6 +69,9 @@ def _internal_context(request, page=None):
 
 def home(request):
     context = _internal_context(request)
+
+    context['categories'] = Category.objects.all()[:8]
+    context['rooms'] = Room.objects.all()[:6]
 
     return render(request, 'pages/index.html', context=context)
 
@@ -105,6 +111,22 @@ def rooms(request):
     context['rooms'] = page_obj
 
     return render(request, 'pages/rooms.html', context=context)
+
+
+def room_details(request, id):
+    context = _internal_context(request)
+
+    room = get_object_or_404(Room, pk=id)
+
+    context['room'] = room
+
+    return render(request, 'pages/room.html', context=context)
+
+
+def appointment(request):
+    context = _internal_context(request)
+
+    return render(request, 'pages/appointment.html', context=context)
 
 
 def categories(request):
