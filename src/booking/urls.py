@@ -1,6 +1,6 @@
-from django.urls import path
+from django.urls import include, path
 
-from . import views
 
 urlpatterns = [
+    path('api/v0/', include('booking.api.v0.urls'))
 ]
