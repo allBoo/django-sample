@@ -144,6 +144,9 @@ def room_details(request, id):
     room = get_object_or_404(Room, pk=id)
 
     context['room'] = room
+    context['page_title'] = '%s #%s' % (room.category.name, room.number)
+    add_breadcrumb(context, PAGES['rooms']['title'], 'rooms')
+    add_breadcrumb(context, context['page_title'], 'rooms')
 
     return render(request, 'pages/room.html', context=context)
 
