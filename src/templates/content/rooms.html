@@ -15,7 +15,7 @@
             <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="{% cycle '0.1s' '0.3s' '0.5s' %}">
                 <div class="property-item rounded overflow-hidden">
                     <div class="position-relative overflow-hidden">
-                        <a href="">
+                        <a href="{% url 'room_details' id=room.id %}">
                             {% if room.thumbnail %}
                                 <img class="img-fluid" src="{% static room.thumbnail %}" alt="">
                             {% else %}
