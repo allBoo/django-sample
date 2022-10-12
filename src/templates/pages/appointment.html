@@ -1,0 +1,82 @@
+{% extends "internal.html" %}
+{% load static %}
+{% load base_tags %}
+
+{% block css_header %}
+    <link href="{% static 'css/calendar-v03.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block javascript_footer %}
+    <script src="{% static 'js/calendar-v03.js' %}"></script>
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container-xxl py-5">
+    <div class="container">
+
+        <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+            <h1 class="mb-3">Make An Appointment</h1>
+            <p>Eirmod sed ipsum dolor sit rebum labore magna erat. Tempor ut dolore lorem kasd vero ipsum sit eirmod sit. Ipsum diam justo sed rebum vero dolor duo.</p>
+        </div>
+
+        <div class="row col-md-12 wow fadeIn" data-wow-delay="0.5s">
+
+            {% if search_results is None %}
+                <p>Please Use the Search form above</p>
+            {% elif not search_results.rooms %}
+                <p>No Rooms have been found by the given search criteria</p>
+            {% else %}
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col">Dates</th>
+                      <th scope="col" colspan="2">Room</th>
+                      <th scope="col">Price</th>
+                      <th scope="col">Book</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    {% for option in search_results.rooms %}
+                    <tr>
+                        <th scope="row">
+                            {{ option.date_arrival|date }} / {{ option.date_departure|date }} / {{ option.days }} Days
+                        </th>
+                        <td>
+                            {% if option.room.thumbnail %}
+                                <img class="img-fluid" src="{% media option.room.thumbnail %}" alt="" width="50">
+                            {% else %}
+                                <img class="img-fluid" src="{% static 'img/property-0.jpg' %}" alt="" width="50">
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ option.room.category.name }} / Room #{{ option.room.number }}
+                        </td>
+
+                        <td>&#8381; {{ option.price }}</td>
+                        <td>
+                            <a class="btn btn-success border-0 w-100 py-1" href="{% url 'room_details' id=option.room.id %}?date_arrival={{ option.date_arrival|date:'d.m.Y' }}&date_departure={{ option.date_departure|date:'d.m.Y' }}#appointment">Book</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+
+                </table>
+
+                <div class="col-12 text-center wow fadeInUp" data-wow-delay="0.1s">
+                {% if search_results.pages.has_previous %}
+                    <a class="btn btn-primary py-3 px-5" href="?search[date_arrival]={{ search.date_arrival|escape }}&search[days]={{ search.days|escape }}&search[category]={{ search.category }}&search[tenants]={{ search.tenants|escape }}&page={{ search_results.pages.previous_page_number }}&">Prev Page</a>
+                {% endif %}
+                {% if search_results.pages.has_next %}
+                    <a class="btn btn-primary py-3 px-5" href="?search[date_arrival]={{ search.date_arrival|escape }}&search[days]={{ search.days|escape }}&search[category]={{ search.category }}&search[tenants]={{ search.tenants|escape }}&page={{ search_results.pages.next_page_number }}&">Next Page</a>
+                {% endif %}
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

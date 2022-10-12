@@ -1,7 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
 from view_breadcrumbs.generic.base import add_breadcrumb
 from booking.models import Category, Room
+from booking.search import Search
+import urllib.parse
 
 # helper functions
 
@@ -36,12 +38,26 @@ PAGES = {
     'testimonial': {
         'title': 'Отзывы'
     },
+    'appointment': {
+        'title': 'Забронировать'
+    },
 }
+
+
+def intval(value):
+    if value is None:
+        return None
+
+    try:
+        return int(value)
+    except ValueError:
+        return 0
 
 
 def _internal_context(request, page=None):
     context = {'request': request}
 
+    # breadcrumbs
     add_breadcrumb(context, 'Главная', 'index')
 
     if not page:
@@ -56,8 +72,20 @@ def _internal_context(request, page=None):
 
         add_breadcrumb(context, page_info['title'], page)
 
+    # footer gallery
     rooms_gallery = Room.objects.exclude(thumbnail__isnull=True)[:6]
     context['rooms_gallery'] = rooms_gallery
+
+    # categories for search
+    context['search_categories'] = dict(Category.objects.values_list('id', 'name'))
+
+    # search options
+    context['search'] = {
+        'date_arrival': request.GET.get('search[date_arrival]', ''),
+        'days': request.GET.get('search[days]', ''),
+        'category': intval(request.GET.get('search[category]', 0)),
+        'tenants': request.GET.get('search[tenants]', ''),
+    }
 
     return context
 
@@ -66,6 +94,9 @@ def _internal_context(request, page=None):
 
 def home(request):
     context = _internal_context(request)
+
+    context['categories'] = Category.objects.all()[:8]
+    context['rooms'] = Room.objects.all()[:6]
 
     return render(request, 'pages/index.html', context=context)
 
@@ -105,6 +136,28 @@ def rooms(request):
     context['rooms'] = page_obj
 
     return render(request, 'pages/rooms.html', context=context)
+
+
+def room_details(request, id):
+    context = _internal_context(request)
+
+    room = get_object_or_404(Room, pk=id)
+
+    context['room'] = room
+    context['page_title'] = '%s #%s' % (room.category.name, room.number)
+    add_breadcrumb(context, PAGES['rooms']['title'], 'rooms')
+    add_breadcrumb(context, context['page_title'], 'rooms')
+
+    return render(request, 'pages/room.html', context=context)
+
+
+def appointment(request):
+    context = _internal_context(request)
+
+    search_context = context['search']
+    context['search_results'] = Search().search(**search_context, offset=request.GET.get('page'))
+
+    return render(request, 'pages/appointment.html', context=context)
 
 
 def categories(request):

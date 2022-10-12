@@ -1,0 +1,51 @@
+{% extends "internal.html" %}
+{% load static %}
+{% load base_tags %}
+
+{% block css_header %}
+    <link href="{% static 'css/calendar-v03.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block javascript_footer %}
+    <script src="{% static 'js/calendar-v03.js' %}"></script>
+{% endblock %}
+
+
+{% block content %}
+<!-- Room Start -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="row g-5 align-items-center">
+            <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
+                <div class="about-img position-relative overflow-hidden p-5 pe-0">
+                    <img class="img-fluid w-100" src="{% media room.thumbnail %}">
+                </div>
+            </div>
+            <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
+                <h1 class="mb-4">{{ room.category.name }} #{{ room.number }}</h1>
+                <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat amet</p>
+                <p><i class="fa fa-check text-primary me-3"></i>{{ room.category.square }} Sqft</p>
+                <p><i class="fa fa-check text-primary me-3"></i>Up to {{ room.category.places }} Places</p>
+                <p><i class="fa fa-check text-primary me-3"></i>Only &#8381; {{ room.category.price }} per Night</p>
+                <a class="btn btn-primary py-3 px-5 mt-3" href="{% url 'rooms' %}">Back to the Property Listing</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-xxl py-5">
+    <div class="container" id="appointment">
+
+        <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+            <h1 class="mb-3">Make An Appointment</h1>
+            <p>Eirmod sed ipsum dolor sit rebum labore magna erat. Tempor ut dolore lorem kasd vero ipsum sit eirmod sit. Ipsum diam justo sed rebum vero dolor duo.</p>
+        </div>
+
+        <div class="row col-md-12 wow fadeIn" data-wow-delay="0.5s">
+            {% include 'pages/components/calendar.html' %}
+        </div>
+    </div>
+</div>
+<!-- Room End -->
+
+{% endblock %}

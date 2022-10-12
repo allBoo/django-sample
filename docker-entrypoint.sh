@@ -18,5 +18,5 @@ then
 	exec "bash" "-c" "$@";
 else
 	echo "Command line argument not set.";
-	exec "uwsgi" "--pythonpath" "/var/www/src/" "--static-map" "/static=/var/www/src/static/" "--http-socket" ":8000" "--wsgi-file" "/var/www/src/hotel/wsgi.py"
+	exec "uwsgi" "--pythonpath" "/var/www/src/" "--static-map" "/site=/var/www/src/site/" "--http-socket" ":8000" "--wsgi-file" "/var/www/src/hotel/wsgi.py"
 fi

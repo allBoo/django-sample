@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'view_breadcrumbs',
     'rest_framework',
 
+    'hotel',
     'landing',
     'booking',
 ]
@@ -82,7 +83,7 @@ WSGI_APPLICATION = 'hotel.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': BASE_DIR / 'db/db.sqlite3',
     }
 }
 
